@@ -1,0 +1,35 @@
+name: Release on Tag
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get version from tag
+        id: tag
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create zip package
+        run: |
+          zip -r fullsnap-${{ steps.tag.outputs.version }}.zip . \
+            -x "*.git*" "node_modules/*" ".github/*" "*.md" "*.zip"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.tag.outputs.version }}
+          name: FullSnap v${{ steps.tag.outputs.version }}
+          files: fullsnap-${{ steps.tag.outputs.version }}.zip
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
