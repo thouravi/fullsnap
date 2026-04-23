@@ -4,6 +4,9 @@ FullSnap is a Chrome Extension (Manifest V3) that captures **pixel-accurate, ful
 
 It works by scrolling through the page, capturing viewport-sized tiles, stitching them together on a canvas, and downloading the final image automatically.
 
+<img width="357" height="375" alt="image" src="https://github.com/user-attachments/assets/36267f47-6d09-4900-acf3-cbb23aa947f7" />
+
+
 ## Features
 
 - One-click full-page capture from the popup UI.
